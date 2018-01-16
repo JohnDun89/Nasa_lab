@@ -21,7 +21,7 @@ handleChange(event) {
 
    const factNodes = this.props.nasaFacts.map(function(fact, index){
      return (
-       <option key={index} value={index}> {fact.title} </option>
+       <option key={index} value={index}> {fact.data[0].title} </option>
      )
    })
 
