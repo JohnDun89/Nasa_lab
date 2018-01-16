@@ -16,10 +16,10 @@ class NasaContainer extends React.Component {
   setFocusFact(fact) {
     this.setState({focusFact : fact });
   }
-
+// https://api.nasa.gov/planetary/apod?api_key=lqgETZONByMF5KESbWAtVTe4v3tNZKf674paxALq
 
   componentDidMount() {
-  const url = 'https://api.nasa.gov/planetary/apod?api_key=lqgETZONByMF5KESbWAtVTe4v3tNZKf674paxALq';
+  const url = 'https://images-api.nasa.gov/search?q=pluto%2011';
   const request = new XMLHttpRequest();
   request.open('GET', url);
   request.send();
@@ -27,8 +27,8 @@ class NasaContainer extends React.Component {
     if (request.status !== 200) return;
     const jsonString = request.responseText;
     const nasaFacts = JSON.parse(jsonString);
-    console.log('nasafacts: ',nasaFacts);
-    this.setState({nasaFacts: nasaFacts, focusFact: nasaFacts[0]})
+    console.log('nasafacts: ',nasaFacts.collection.items);
+    this.setState({nasaFacts: nasaFacts.collection.items, focusFact: nasaFacts[0]})
   })
   }
 
@@ -36,8 +36,9 @@ class NasaContainer extends React.Component {
     return(
       <div>
         <h1>Space Fact</h1>
-        <NasaSelector />
-        <NasaDisplay />
+        <NasaSelector nasaFacts={this.state.nasaFacts}
+        setFocusFact={this.setFocusFact}/>
+        <NasaDisplay fact={this.state.focusFact}/>
       </div>
     )
   }
